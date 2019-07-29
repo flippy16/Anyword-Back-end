@@ -32,6 +32,10 @@ app.post('/messages', (req, res) =>{
     });
 });
 
+app.post('/remove', (req, res) =>{
+    messages.removeMessage(req.body);
+});
+
 const port = process.env.PORT || 9090;
 app.listen(port, ()=>{
     console.log(`listening on ${port}`);
