@@ -12,14 +12,18 @@ const schema = Joi.object().keys({
 
 const messages = db.get('messages');
 
-function getAllMessages(){
-    return messages.find();
+function getAllMessages(limit){
+    return messages.find({}, {"limit": limit, "skip": 0});
+};
+
+function getFiveMessages(startFrom){
+    return messages.find({}, {"limit": 5, "skip": startFrom});
 };
 
 function insertMessage(msg){
     if(!msg.username) message.username = "Anonymous";
     console.log( "Booom"+countMessage());
-    msg.number = countMessage();
+    // msg.number = countMessage();
     const result = Joi.validate(msg, schema);
     if (result.error == null){
         return messages.insert(msg);
@@ -38,19 +42,24 @@ function removeMessage(idMsg) {
     });
 }
 
+function dropMessage() {
+    messages.drop();
+}
+
 function countMessage() {
-    messages.count({}, function (err, count) {
-        console.log(count);
-        return count;
-      }).catch((err) =>{
-        res.status(500);
-        res.json(err);
-        }
-    );
+    return messages.count({});
+}
+
+function getRandom(atNumber) {
+    return messages.findOne({number: atNumber});
 }
 
 module.exports = {
     getAllMessages,
     insertMessage,
-    removeMessage
+    removeMessage,
+    dropMessage,
+    countMessage,
+    getRandom,
+    getFiveMessages
 };
