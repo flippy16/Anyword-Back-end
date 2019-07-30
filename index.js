@@ -115,7 +115,7 @@ app.get('/api/v1/last-words', (req, res) =>{
     });
 });
 
-app.get('/latest-words', (req, res) =>{
+app.get('/api/v1/latest-words', (req, res) =>{
     messages.countMessage().then((counted) => {
         messages.getRandom((counted-1)).then((msg) => {
             var newMsgData = {
